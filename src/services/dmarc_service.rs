@@ -1,17 +1,8 @@
-use std::process::Command;
+use crate::infrastructure::resolve_nslookup;
 
 pub fn resolve_dmarc(domain: &str) -> String {
     let host = format!("_dmarc.{domain}");
-    let output = Command::new("nslookup")
-        .args(["-type=TXT", &host])
-        .output();
-
-    let output = match output {
-        Ok(output) => output,
-        Err(_) => return "DNS Query Failed".to_string(),
-    };
-
-    let response = String::from_utf8_lossy(&output.stdout);
+    let response = resolve_nslookup::query_txt(&host);
 
     for line in response.lines() {
         if line.contains("text =") {

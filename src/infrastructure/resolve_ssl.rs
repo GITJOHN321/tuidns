@@ -4,7 +4,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use crate::models::dns_model::Ssl;
+use crate::domain::dns_model::Ssl;
 
 pub fn resolve_ssl(domain: &str) -> Ssl {
 

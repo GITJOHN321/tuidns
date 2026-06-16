@@ -1,4 +1,4 @@
-use crate::models::dns_model::Panel;
+use crate::domain::dns_model::Panel;
 
 pub fn get_panels() -> Vec<Panel> {
     vec![

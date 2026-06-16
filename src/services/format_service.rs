@@ -1,4 +1,4 @@
-use crate::models::dns_model::DnsQuery;
+use crate::domain::dns_model::DnsQuery;
 
 pub fn format_dns_query(q: &DnsQuery) -> String {
     let mut out = String::new();

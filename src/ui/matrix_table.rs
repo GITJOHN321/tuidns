@@ -1,4 +1,4 @@
-use crate::models::dns_model::Host;
+use crate::domain::dns_model::Host;
 use ratatui::{
     prelude::*,
     style::{Color,Modifier, Style},

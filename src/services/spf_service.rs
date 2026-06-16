@@ -1,16 +1,7 @@
-use std::process::Command;
+use crate::infrastructure::resolve_nslookup;
 
 pub fn resolve_spf(domain: &str) -> String {
-    let output = Command::new("nslookup")
-        .args(["-type=TXT", domain])
-        .output();
-
-    let output = match output {
-        Ok(o) => o,
-        Err(_) => return "DNS Query Failed".to_string(),
-    };
-
-    let response = String::from_utf8_lossy(&output.stdout);
+    let response = resolve_nslookup::query_txt(domain);
 
     for line in response.lines() {
         let line = line.trim();

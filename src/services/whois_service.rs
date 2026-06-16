@@ -1,8 +1,8 @@
-use std::process::Command;
 use std::collections::HashSet;
 
-use crate::models::dns_model::WhoisInfo;
+use crate::domain::dns_model::WhoisInfo;
 use crate::infrastructure::resolve_server_whois::resolve_server_whois;
+use crate::infrastructure::resolve_whois;
 
 const REGISTRAR_KEYS: [&str; 3] = [
     "Registrar:",
@@ -40,16 +40,10 @@ pub fn resolve_whois(domain: &str) -> WhoisInfo {
         return whois;
     }
 
-    let output = match Command::new("whois")
-        .args(["-h", &server, domain])
-        .output()
-    {
-        Ok(output) => output,
-        Err(_) => return whois,
-    };
-
-    let response =
-        String::from_utf8_lossy(&output.stdout);
+    let response = resolve_whois::query_whois(domain, &server);
+    if response.is_empty() {
+        return whois;
+    }
 
     whois.registrar = "Not Found".to_string();
     whois.expire_date = "Not Found".to_string();

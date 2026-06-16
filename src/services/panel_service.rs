@@ -1,5 +1,5 @@
 use crate::infrastructure::resolve_port::resolve_port;
-use crate::models::panel_catalog::get_panels;
+use crate::domain::panel_catalog::get_panels;
 
 pub fn detect_panel(domain: &str) -> String {
 

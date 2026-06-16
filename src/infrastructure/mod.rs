@@ -4,3 +4,8 @@ pub mod resolve_ping;
 pub mod resolve_ssl;
 pub mod resolve_port;
 pub mod resolve_server_whois;
+pub mod resolve_ns;
+pub mod resolve_mx;
+pub mod resolve_dkim;
+pub mod resolve_nslookup;
+pub mod resolve_whois;

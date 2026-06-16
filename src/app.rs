@@ -9,7 +9,7 @@ use ratatui::{
     style::Color,
 };
 
-use crate::models::dns_model::DnsQuery;
+use crate::domain::dns_model::DnsQuery;
 use crate::orchestrators::dns_orchestrator::execute_query;
 use crate::orchestrators::format_orchestrator::send_clipboard;
 use crate::ui::cursor::TextCursor;

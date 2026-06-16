@@ -10,7 +10,7 @@ use ratatui::{backend::CrosstermBackend, Terminal};
 
 mod app;
 mod infrastructure;
-mod models;
+mod domain;
 mod orchestrators;
 mod services;
 mod ui;

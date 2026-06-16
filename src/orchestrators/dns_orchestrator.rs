@@ -4,7 +4,7 @@ use std::{
     time::Duration,
 };
 
-use crate::models::dns_model::{DnsQuery, WhoisInfo};
+use crate::domain::dns_model::{DnsQuery, WhoisInfo};
 use crate::services::{
     dkim_service,
     dmarc_service,

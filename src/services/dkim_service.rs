@@ -1,4 +1,4 @@
-use std::process::Command;
+use crate::infrastructure::resolve_dkim;
 
 pub fn resolve_dkim(domain: &str) -> String {
     let selectors = [
@@ -10,16 +10,7 @@ pub fn resolve_dkim(domain: &str) -> String {
 
     for selector in selectors {
         let host = format!("{selector}._domainkey.{domain}");
-
-        let output = match Command::new("dig")
-            .args(["+short", "TXT", &host])
-            .output()
-        {
-            Ok(output) => output,
-            Err(_) => continue,
-        };
-
-        let response = String::from_utf8_lossy(&output.stdout);
+        let response = resolve_dkim::query_txt(&host);
 
         if response.contains("v=DKIM1") {
             return response.trim().to_string();
