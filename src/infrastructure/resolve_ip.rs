@@ -31,8 +31,6 @@ pub fn resolve_ip(hostname: &str) -> IpInfo {
                     
             }
 
-            let lines: Vec<&str>;
-
             for line in stdout.lines() {
 
                 if line.parse::<std::net::IpAddr>().is_ok() {
