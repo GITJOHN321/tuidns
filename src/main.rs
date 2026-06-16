@@ -11,6 +11,7 @@ use crate::ui::ns_table::render_basic_table;
 use crate::orchestrators::dns_orchestrator::execute_query;
 use crate::orchestrators::format_orchestrator::send_clipboard;
 use crate::models::dns_model::DnsQuery;
+use crate::ui::cursor::TextCursor;
 
 use crossterm::{
     event::{
@@ -50,8 +51,11 @@ fn main() -> io::Result<()> {
     let mut history: Vec<String> = Vec::new();
     let mut history_index: Option<usize> = None;
     let mut info="Ctrl + C";
+    let mut cursor = TextCursor::new();
 
     loop {
+        cursor.tick();
+
         terminal.draw(|f| {
             let size = f.area();
 
@@ -86,7 +90,7 @@ fn main() -> io::Result<()> {
             // --------------------------------------------------
 
             // Cursor visual
-            let input_display = format!("{}|", input);
+            let input_display = cursor.render(&input);
             let input_widget = Paragraph::new(input_display)
                 .wrap(Wrap { trim: true })
                 .block(
@@ -240,11 +244,15 @@ fn main() -> io::Result<()> {
                     }
 
                     KeyCode::Char(c) => {
-                        input.push(c);
+                        input.insert(cursor.pos, c);
+                        cursor.pos += 1;
                     }
 
                     KeyCode::Backspace => {
-                        input.pop();
+                        if cursor.pos > 0 {
+                            input.remove(cursor.pos - 1);
+                            cursor.pos -= 1;
+                        }
                     }
 
                     KeyCode::Enter => {
@@ -258,7 +266,17 @@ fn main() -> io::Result<()> {
                         }
                         
                         input.clear();
-                        
+                        cursor.pos = 0;
+                    }
+                    KeyCode::Left => {
+                        if cursor.pos > 0 {
+                            cursor.pos -= 1;
+                        }
+                    }
+                    KeyCode::Right => {
+                        if cursor.pos < input.len() {
+                            cursor.pos += 1;
+                        }
                     }
                     KeyCode::Up => {
                         if history.is_empty() {
@@ -273,6 +291,7 @@ fn main() -> io::Result<()> {
 
                         if let Some(i) = history_index {
                             input = history[i].clone();
+                            cursor.pos = input.len();
                         }
                     }
                     KeyCode::Down => {
@@ -284,10 +303,12 @@ fn main() -> io::Result<()> {
                             Some(i) if i < history.len() - 1 => {
                                 history_index = Some(i + 1);
                                 input = history[i + 1].clone();
+                                cursor.pos = input.len();
                             }
                             Some(_) => {
                                 history_index = None;
                                 input.clear();
+                                cursor.pos = 0;
                             }
                             None => {}
                         }
