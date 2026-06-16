@@ -64,7 +64,7 @@ A terminal-based DNS and domain diagnostics toolkit built with **Rust**, **Ratat
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-user>/Tuidns.git
+git clone https://github.com/GITJOHN321/tuidns.git
 cd Tuidns
 ```
 
