@@ -13,7 +13,12 @@ use crate::orchestrators::format_orchestrator::send_clipboard;
 use crate::models::dns_model::DnsQuery;
 
 use crossterm::{
-    event::{KeyCode,KeyModifiers},
+    event::{
+        KeyCode,
+        KeyModifiers,
+        EnableMouseCapture,
+        DisableMouseCapture,
+    },
     execute,
     terminal::{
         disable_raw_mode,
@@ -36,7 +41,7 @@ fn main() -> io::Result<()> {
     enable_raw_mode()?;
 
     let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen)?;
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
 
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
@@ -302,7 +307,8 @@ fn main() -> io::Result<()> {
 
     execute!(
         terminal.backend_mut(),
-        LeaveAlternateScreen
+        LeaveAlternateScreen,
+        DisableMouseCapture,
     )?;
     terminal.show_cursor()?;
     Ok(())
