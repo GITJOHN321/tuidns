@@ -169,11 +169,11 @@ The project follows a modular layered architecture:
 
 ```text
 src
-├── domain           -- Data types (DnsQuery, Host, etc.) + static panel catalog
-├── infrastructure   -- Raw CLI calls (dig, ping, openssl, whois, nslookup) + TCP port check
-├── orchestrators    -- Parallel execution coordination (spawns threads, aggregates results)
-├── services         -- Business logic wrappers around infrastructure calls
-└── ui               -- Ratatui widgets (tables, cursor, info panels)
+├── domain           -- Data types
+├── infrastructure   -- Raw CLI calls
+├── orchestrators    -- Parallel execution coordination
+├── services         -- Business logic
+└── ui               -- Ratatui widgets
 ```
 
 ### UI
