@@ -163,24 +163,24 @@ The application will automatically perform all available diagnostics and display
 
 ---
 
-## Architecture
+## Architecture (current)
 
 The project follows a modular layered architecture:
 
 ```text
 src
-├── ui
-├── models
-├── controllers
-├── services
-└── utils
+├── domain           -- Data types (DnsQuery, Host, etc.) + static panel catalog
+├── infrastructure   -- Raw CLI calls (dig, ping, openssl, whois, nslookup) + TCP port check
+├── orchestrators    -- Parallel execution coordination (spawns threads, aggregates results)
+├── services         -- Business logic wrappers around infrastructure calls
+└── ui               -- Ratatui widgets (tables, cursor, info panels)
 ```
 
 ### UI
 
 Responsible for rendering widgets and layouts using Ratatui.
 
-### Controllers
+### Orchestrators
 
 Coordinate application workflows and aggregate results from multiple services.
 
@@ -197,7 +197,7 @@ Contain the business logic for:
 * WHOIS
 * Panel detection
 
-### Utils
+### Infrastructure
 
 Provide infrastructure and network-related helpers such as:
 
